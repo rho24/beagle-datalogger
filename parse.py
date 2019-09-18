@@ -9,8 +9,10 @@ import numpy as np
 raw = np.loadtxt('imu-data2.txt',
                  dtype={'names': ('ax', 'ay', 'az', 'gx',                                  'gy', 'gz'), 'formats': ('i4', 'i4', 'i4', 'i4', 'i4', 'i4')}, delimiter=',')
 
+dt = 0.0125
+
 gyro = np.array(list(map(lambda r: [r[3], r[4], r[5]], raw)))
-gyro = gyro  * (2000.0/32768.0) * 0.0174532925199 * 0.01
+gyro = gyro  * (2000.0/32768.0) * 0.0174532925199 * dt
 
 sampleCount = gyro[:,0].size
 

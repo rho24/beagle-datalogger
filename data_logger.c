@@ -11,6 +11,8 @@
  * @date       1/29/2018
  */
 
+#define __STDC_FORMAT_MACROS
+#include <inttypes.h>
 
 #include <stdio.h>
 #include <signal.h>
@@ -40,6 +42,7 @@ static int enable_thermometer = 0;
 static int enable_warnings = 0;
 static int log_raw_values = 0;
 static int running = 0;
+static uint64_t now, pastNow = 0;
 
 static FILE * logfile;
 
@@ -250,6 +253,9 @@ int main(int argc, char *argv[])
 
 			fflush(logfile);
 		}
+		pastNow = now;
+		now = rc_nanos_since_boot();
+		printf("time step: %" PRIu64, now - pastNow);
 
 		fflush(stdout);
 		rc_usleep(10000);
